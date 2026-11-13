@@ -3,118 +3,224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Инвестиционная политика предприятия — тесты</title>
+<title>Инвестиционная политика предприятия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
+  --night:#1d2733;
   --slate:#3d4a5c;
-  --slate-deep:#2f3a49;
-  --frost:#c3cad3;
-  --linen:#e9e5df;
+  --slate-2:#2f3a49;
   --denim:#8da3b8;
-  --charcoal:#36414f;
-  --paper:#f4f2ef;
-  --ink:#242c36;
-  --ok:#4f7a63;
-  --no:#9c5a56;
+  --frost:#c7d0da;
+  --ice:#dde6ee;
+  --linen:#eceae6;
+  --snow:#f7f9fb;
+  --ink:#232b35;
+  --ink-soft:#5a6672;
+  --mint:#4f7a63;
+  --rose:#9c5a56;
+  --glass:rgba(255,255,255,.72);
+  --shadow:0 18px 50px -24px rgba(29,39,51,.45);
+  --display:"Cormorant Garamond",Georgia,serif;
+  --ui:"Jost","Helvetica Neue",Arial,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-  font-family:"Georgia","Times New Roman",serif;
-  background:var(--paper);
-  color:var(--ink);
-  line-height:1.65;
+  font-family:var(--ui);font-weight:300;color:var(--ink);line-height:1.7;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, #e6edf4 0%, transparent 60%),
+    radial-gradient(900px 500px at 95% 8%, #eae6ef 0%, transparent 55%),
+    linear-gradient(#f7f9fb,#f2f4f7);
+  background-attachment:fixed;
+  min-height:100vh;
 }
-.bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--slate);z-index:99;transition:width .2s}
+::selection{background:var(--denim);color:#fff}
 
+/* ---------- снегопад ---------- */
+#snow{position:fixed;inset:0;pointer-events:none;z-index:1}
+
+/* ---------- прогресс ---------- */
+#bar{position:fixed;top:0;left:0;height:2px;width:0;z-index:99;
+  background:linear-gradient(90deg,var(--denim),#fff,var(--denim));
+  box-shadow:0 0 12px rgba(141,163,184,.8);transition:width .15s linear}
+
+/* ---------- шапка ---------- */
 header{
-  background:linear-gradient(160deg,var(--slate-deep),var(--denim));
-  color:#fff;padding:90px 24px 70px;text-align:center;position:relative;overflow:hidden;
+  position:relative;overflow:hidden;text-align:center;
+  padding:clamp(80px,14vh,140px) 24px clamp(70px,11vh,110px);
+  background:linear-gradient(170deg,#141c26 0%,#243141 45%,#3f5168 100%);
+  color:#fff;isolation:isolate;
 }
-header::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(circle at 20% 30%, rgba(255,255,255,.12), transparent 40%),
-  radial-gradient(circle at 80% 70%, rgba(255,255,255,.08), transparent 45%);}
-header h1{font-size:clamp(28px,5vw,52px);font-weight:400;letter-spacing:.06em;position:relative}
-header .sub{margin-top:14px;font-size:13px;letter-spacing:.3em;text-transform:uppercase;opacity:.85;position:relative}
-header .divider{width:60px;height:1px;background:rgba(255,255,255,.5);margin:26px auto;position:relative}
+.aurora{position:absolute;inset:-20% -10%;z-index:-2;filter:blur(70px);opacity:.5}
+.aurora span{position:absolute;border-radius:50%;mix-blend-mode:screen;animation:drift 24s ease-in-out infinite}
+.aurora span:nth-child(1){width:46vw;height:30vw;left:2%;top:-8%;background:#4e7f9c;animation-delay:0s}
+.aurora span:nth-child(2){width:38vw;height:26vw;right:4%;top:10%;background:#6f7fae;animation-delay:-8s}
+.aurora span:nth-child(3){width:34vw;height:22vw;left:35%;bottom:-12%;background:#5e9b96;animation-delay:-16s}
+@keyframes drift{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(4%,-5%,0) scale(1.12)}66%{transform:translate3d(-5%,4%,0) scale(.94)}}
+.vignette{position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(ellipse at 50% 30%,transparent 35%,rgba(20,28,38,.55) 100%)}
+.frostline{position:absolute;left:0;right:0;bottom:-1px;height:70px;z-index:0;
+  background:linear-gradient(to top,var(--snow),transparent);opacity:.55}
 
-nav{position:sticky;top:0;background:rgba(244,242,239,.95);backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--frost);z-index:50;display:flex;justify-content:center;gap:6px;padding:10px;flex-wrap:wrap}
-nav button{font-family:inherit;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
-  background:none;border:1px solid transparent;color:var(--slate);padding:8px 18px;cursor:pointer;border-radius:2px;transition:.2s}
-nav button:hover{background:var(--linen)}
-nav button.on{background:var(--slate);color:#fff}
+header .eyebrow{font-size:11px;letter-spacing:.42em;text-transform:uppercase;opacity:.65;margin-bottom:26px}
+header h1{font-family:var(--display);font-weight:300;font-size:clamp(34px,6.2vw,74px);
+  line-height:1.08;letter-spacing:.02em;text-shadow:0 2px 30px rgba(0,0,0,.25)}
+header h1 em{font-style:italic;color:#cfe0ee}
+.crystal{margin:30px auto 22px;width:120px;opacity:.75}
+header .sub{font-size:12px;letter-spacing:.34em;text-transform:uppercase;opacity:.62}
 
-main{max-width:880px;margin:0 auto;padding:50px 20px 90px}
-section{display:none;animation:fade .4s ease}
-section.on{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* ---------- навигация ---------- */
+nav{position:sticky;top:0;z-index:40;display:flex;justify-content:center;gap:4px;flex-wrap:wrap;
+  padding:12px;background:rgba(247,249,251,.78);backdrop-filter:saturate(1.4) blur(14px);
+  -webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid rgba(199,208,218,.6)}
+nav button{position:relative;font-family:var(--ui);font-weight:400;font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;background:none;border:0;color:var(--ink-soft);padding:10px 20px;cursor:pointer;transition:.25s}
+nav button::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:1px;
+  background:var(--slate);transition:.3s;transform:translateX(-50%)}
+nav button:hover{color:var(--slate-2)}
+nav button:hover::after{width:30%}
+nav button.on{color:var(--slate-2)}
+nav button.on::after{width:60%}
 
-h2{font-size:26px;font-weight:400;letter-spacing:.04em;color:var(--slate-deep);margin-bottom:8px}
-.hint{color:#6b7682;font-size:14px;margin-bottom:30px;font-style:italic}
+main{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:60px 20px 110px}
+section{display:none}
+section.on{display:block;animation:rise .55s cubic-bezier(.2,.7,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-/* --- открытые --- */
-.card{background:#fff;border:1px solid var(--frost);border-left:3px solid var(--denim);
-  margin-bottom:12px;border-radius:2px;overflow:hidden;transition:.25s}
-.card:hover{border-left-color:var(--slate);box-shadow:0 4px 18px rgba(61,74,92,.08)}
-.q{padding:18px 22px;cursor:pointer;display:flex;gap:16px;align-items:flex-start;user-select:none}
-.num{font-size:12px;letter-spacing:.1em;color:var(--denim);min-width:26px;padding-top:4px}
-.qt{flex:1;font-size:17px;color:var(--slate-deep)}
-.chev{color:var(--denim);transition:transform .25s;font-size:14px;padding-top:4px}
-.card.open .chev{transform:rotate(90deg)}
-.a{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.card.open .a{max-height:700px}
-.a-in{padding:0 22px 22px 64px;color:#3f4854;font-size:15.5px;border-top:1px solid var(--linen);padding-top:16px;margin-top:0}
-.a-in b{color:var(--slate-deep);font-weight:600}
-.a-in ul{margin:10px 0 0 18px}
-.a-in li{margin-bottom:5px}
+.shead{text-align:center;margin-bottom:42px}
+.shead h2{font-family:var(--display);font-weight:300;font-size:clamp(28px,4.4vw,42px);
+  letter-spacing:.03em;color:var(--slate-2)}
+.shead p{font-size:13px;letter-spacing:.06em;color:var(--ink-soft);margin-top:10px}
+.shead .ic{display:block;margin:16px auto 0;width:58px;opacity:.5}
 
-.tools{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
-.tools button,.btn{font-family:inherit;font-size:13px;letter-spacing:.08em;background:#fff;
-  border:1px solid var(--frost);color:var(--slate);padding:9px 20px;cursor:pointer;border-radius:2px;transition:.2s}
-.tools button:hover,.btn:hover{background:var(--slate);color:#fff;border-color:var(--slate)}
+/* ---------- стеклянные карточки ---------- */
+.card{
+  position:relative;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.9);outline:1px solid rgba(199,208,218,.55);outline-offset:-1px;
+  border-radius:4px;margin-bottom:10px;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s,outline-color .3s;
+}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--denim),rgba(141,163,184,.15));transition:.3s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow);outline-color:var(--denim)}
+.card:hover::before{background:linear-gradient(180deg,var(--slate),var(--denim))}
+.q{display:flex;gap:18px;align-items:flex-start;padding:19px 24px 19px 26px;cursor:pointer;user-select:none}
+.num{font-family:var(--display);font-size:20px;color:var(--denim);min-width:30px;line-height:1.3}
+.qt{flex:1;font-family:var(--display);font-size:21px;font-weight:400;line-height:1.4;color:var(--slate-2)}
+.flake{width:16px;height:16px;flex:none;margin-top:6px;color:var(--denim);transition:transform .45s cubic-bezier(.2,.7,.3,1),color .3s}
+.card.open .flake{transform:rotate(135deg);color:var(--slate)}
+.a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.3,1)}
+.card.open .a{grid-template-rows:1fr}
+.a>div{overflow:hidden}
+.a-in{padding:2px 28px 24px 74px;font-size:15px;color:#424c57;
+  border-top:1px solid rgba(199,208,218,.45);margin:0 24px 0 74px;padding-left:0;padding-top:16px}
+.a-in b{font-weight:500;color:var(--slate-2)}
+.a-in i{color:var(--ink-soft)}
+.a-in ul{list-style:none;margin:12px 0 0}
+.a-in li{position:relative;padding-left:20px;margin-bottom:7px}
+.a-in li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;
+  background:var(--denim);transform:rotate(45deg)}
 
-/* --- тесты --- */
-.quiz{background:#fff;border:1px solid var(--frost);padding:24px;margin-bottom:14px;border-radius:2px}
-.quiz .qt{font-size:17px;margin-bottom:16px;display:block}
-.opt{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;margin-bottom:7px;
-  border:1px solid var(--linen);border-radius:2px;cursor:pointer;transition:.18s;font-size:15px}
-.opt:hover{background:var(--paper);border-color:var(--denim)}
-.opt input{margin-top:5px;accent-color:var(--slate)}
-.opt.sel{background:#eef1f5;border-color:var(--denim)}
-.opt.right{background:#e8f0ea;border-color:var(--ok);color:#2f4e3e}
-.opt.wrong{background:#f6eae9;border-color:var(--no);color:#6e3a37}
-.opt.locked{cursor:default}
-.mark{margin-left:auto;font-weight:700;font-size:16px}
+.tools{display:flex;gap:8px;justify-content:center;margin-bottom:26px;flex-wrap:wrap}
+.btn{font-family:var(--ui);font-weight:400;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(255,255,255,.7);border:1px solid rgba(199,208,218,.8);color:var(--slate);
+  padding:10px 22px;cursor:pointer;border-radius:3px;transition:.25s;backdrop-filter:blur(6px)}
+.btn:hover{background:var(--slate-2);color:#fff;border-color:var(--slate-2);
+  box-shadow:0 8px 22px -10px rgba(47,58,73,.7)}
 
-.score{position:sticky;bottom:18px;background:var(--slate-deep);color:#fff;padding:18px 24px;
-  border-radius:3px;display:flex;align-items:center;justify-content:space-between;gap:18px;
-  box-shadow:0 10px 30px rgba(47,58,73,.25);flex-wrap:wrap;margin-top:24px}
-.score .n{font-size:28px}
-.score small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
-.score .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
-.score .btn:hover{background:#fff;color:var(--slate-deep)}
-.meter{flex:1;min-width:140px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
-.meter i{display:block;height:100%;width:0;background:var(--frost);transition:width .5s}
+/* ---------- тест ---------- */
+.quiz{background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.9);outline:1px solid rgba(199,208,218,.55);outline-offset:-1px;
+  border-radius:4px;padding:26px 28px;margin-bottom:12px}
+.quiz .head{display:flex;gap:16px;align-items:baseline;margin-bottom:18px}
+.quiz .head .n{font-family:var(--display);font-size:22px;color:var(--denim)}
+.quiz .head .t{font-family:var(--display);font-size:21px;line-height:1.4;color:var(--slate-2)}
+.opt{display:flex;gap:14px;align-items:flex-start;padding:12px 16px;margin-bottom:7px;font-size:14.5px;
+  border:1px solid rgba(199,208,218,.5);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);
+  transition:.2s cubic-bezier(.2,.7,.3,1)}
+.opt:hover{background:#fff;border-color:var(--denim);transform:translateX(3px)}
+.opt .let{font-family:var(--display);font-size:17px;color:var(--denim);min-width:18px}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt.sel{background:#e8eef5;border-color:var(--slate);box-shadow:inset 0 0 0 1px rgba(61,74,92,.25)}
+.opt.sel .let{color:var(--slate-2)}
+.opt.right{background:#e7f0ea;border-color:var(--mint);color:#2d4b3c}
+.opt.right .let{color:var(--mint)}
+.opt.wrong{background:#f6eae9;border-color:var(--rose);color:#6c3835}
+.opt.wrong .let{color:var(--rose)}
+.opt.locked{cursor:default;transform:none}
+.mark{margin-left:auto;font-size:15px;font-weight:500}
+.exp{display:none;margin-top:14px;padding:13px 16px;font-size:13.5px;color:#4b5560;
+  background:rgba(236,241,246,.8);border-left:2px solid var(--denim);border-radius:0 3px 3px 0}
+.exp b{font-weight:500;color:var(--slate-2)}
 
-/* --- карточки-термины --- */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-.flip{perspective:900px;height:150px;cursor:pointer}
-.inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.panel{position:sticky;bottom:16px;margin-top:26px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  padding:20px 26px;border-radius:5px;color:#fff;
+  background:linear-gradient(135deg,rgba(29,39,51,.94),rgba(61,78,99,.94));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px -22px rgba(20,28,38,.85)}
+.panel .n{font-family:var(--display);font-size:32px;line-height:1}
+.panel small{display:block;font-size:10px;letter-spacing:.26em;text-transform:uppercase;opacity:.6;margin-top:6px}
+.meter{flex:1;min-width:130px;height:3px;background:rgba(255,255,255,.18);border-radius:3px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;border-radius:3px;
+  background:linear-gradient(90deg,var(--denim),#fff);transition:width .7s cubic-bezier(.2,.7,.3,1);
+  box-shadow:0 0 10px rgba(255,255,255,.6)}
+.panel .btn{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.3)}
+.panel .btn:hover{background:#fff;color:var(--night);border-color:#fff}
+
+/* ---------- карточки терминов ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:14px}
+.flip{perspective:1000px;height:168px;cursor:pointer}
+.inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.8,.3,1);transform-style:preserve-3d}
 .flip.f .inner{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:2px;display:flex;
-  align-items:center;justify-content:center;text-align:center;padding:18px;font-size:15px;border:1px solid var(--frost)}
-.front{background:#fff;color:var(--slate-deep);letter-spacing:.06em}
-.back{background:var(--slate);color:#fff;transform:rotateY(180deg);font-size:13.5px;line-height:1.5}
-footer{text-align:center;padding:30px;color:#8a929c;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}
+.front{background:linear-gradient(145deg,#fff,var(--ice));border:1px solid rgba(255,255,255,.9);
+  outline:1px solid rgba(199,208,218,.6);outline-offset:-1px;overflow:hidden}
+.front .lbl{font-family:var(--display);font-size:24px;letter-spacing:.04em;color:var(--slate-2);position:relative}
+.front .bg{position:absolute;right:-18px;bottom:-18px;width:100px;opacity:.14;color:var(--denim)}
+.back{background:linear-gradient(150deg,var(--slate-2),var(--slate));color:#e8eef4;
+  transform:rotateY(180deg);font-size:13px;line-height:1.55;border:1px solid rgba(255,255,255,.1)}
+.flip:hover .front{box-shadow:var(--shadow)}
+
+footer{position:relative;z-index:2;text-align:center;padding:40px 20px 56px;
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#9aa4ae}
+footer svg{display:block;margin:0 auto 16px;width:40px;opacity:.35;color:var(--denim)}
+footer .by{font-family:var(--display);font-size:19px;letter-spacing:.06em;
+  text-transform:none;color:var(--slate-2);margin-bottom:6px}
+footer .by span{display:block;font-family:var(--ui);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--denim);margin-top:7px}
+footer .rule{width:46px;height:1px;background:rgba(199,208,218,.9);margin:18px auto}
+
+@media (max-width:560px){
+  .a-in{margin-left:26px;padding-left:0}
+  .q{padding-left:20px;gap:12px}
+  .qt{font-size:19px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<div class="bar" id="bar"></div>
+<canvas id="snow"></canvas>
+<div id="bar"></div>
 
 <header>
-  <h1>Инвестиционная политика предприятия</h1>
-  <div class="divider"></div>
+  <div class="aurora"><span></span><span></span><span></span></div>
+  <div class="vignette"></div>
+  <div class="eyebrow">Учебная дисциплина</div>
+  <h1>Инвестиционная<br><em>политика</em> предприятия</h1>
+  <svg class="crystal" viewBox="0 0 160 20" fill="none" stroke="currentColor" stroke-width="1">
+    <line x1="0" y1="10" x2="62" y2="10"/><line x1="98" y1="10" x2="160" y2="10"/>
+    <g transform="translate(80,10)">
+      <line x1="-9" y1="0" x2="9" y2="0"/><line x1="0" y1="-9" x2="0" y2="9"/>
+      <line x1="-6.4" y1="-6.4" x2="6.4" y2="6.4"/><line x1="-6.4" y1="6.4" x2="6.4" y2="-6.4"/>
+      <circle cx="0" cy="0" r="2.2"/>
+    </g>
+  </svg>
   <div class="sub">Открытые тесты · Закрытые тесты · Термины</div>
+  <div class="frostline"></div>
 </header>
 
 <nav>
@@ -125,23 +231,31 @@ footer{text-align:center;padding:30px;color:#8a929c;font-size:12px;letter-spacin
 
 <main>
 
-<!-- ============ ОТКРЫТЫЕ ============ -->
 <section id="open" class="on">
-  <h2>Открытые тесты</h2>
-  <p class="hint">Нажмите на вопрос, чтобы раскрыть развёрнутый ответ.</p>
+  <div class="shead">
+    <h2>Открытые тесты</h2>
+    <p>Десять вопросов с развёрнутыми ответами</p>
+    <svg class="ic" viewBox="0 0 60 10" fill="none" stroke="currentColor" stroke-width=".8">
+      <line x1="0" y1="5" x2="22" y2="5"/><line x1="38" y1="5" x2="60" y2="5"/>
+      <path d="M30 1v8M26.5 3l7 4M33.5 3l-7 4"/></svg>
+  </div>
   <div class="tools">
-    <button onclick="allCards(true)">Раскрыть все</button>
-    <button onclick="allCards(false)">Свернуть все</button>
+    <button class="btn" onclick="allCards(true)">Раскрыть все</button>
+    <button class="btn" onclick="allCards(false)">Свернуть все</button>
   </div>
   <div id="openList"></div>
 </section>
 
-<!-- ============ ЗАКРЫТЫЕ ============ -->
 <section id="closed">
-  <h2>Закрытые тесты</h2>
-  <p class="hint">Выберите один вариант ответа в каждом вопросе, затем проверьте результат.</p>
+  <div class="shead">
+    <h2>Закрытые тесты</h2>
+    <p>Выберите вариант ответа и проверьте результат</p>
+    <svg class="ic" viewBox="0 0 60 10" fill="none" stroke="currentColor" stroke-width=".8">
+      <line x1="0" y1="5" x2="22" y2="5"/><line x1="38" y1="5" x2="60" y2="5"/>
+      <path d="M30 1v8M26.5 3l7 4M33.5 3l-7 4"/></svg>
+  </div>
   <div id="quizList"></div>
-  <div class="score">
+  <div class="panel">
     <div><span class="n" id="sc">0 / 10</span><small id="scl">не проверено</small></div>
     <div class="meter"><i id="mt"></i></div>
     <button class="btn" onclick="check()">Проверить</button>
@@ -149,39 +263,50 @@ footer{text-align:center;padding:30px;color:#8a929c;font-size:12px;letter-spacin
   </div>
 </section>
 
-<!-- ============ КАРТОЧКИ ============ -->
 <section id="cards">
-  <h2>Карточки терминов</h2>
-  <p class="hint">Нажмите на карточку, чтобы увидеть определение.</p>
+  <div class="shead">
+    <h2>Карточки терминов</h2>
+    <p>Нажмите, чтобы перевернуть</p>
+    <svg class="ic" viewBox="0 0 60 10" fill="none" stroke="currentColor" stroke-width=".8">
+      <line x1="0" y1="5" x2="22" y2="5"/><line x1="38" y1="5" x2="60" y2="5"/>
+      <path d="M30 1v8M26.5 3l7 4M33.5 3l-7 4"/></svg>
+  </div>
   <div class="grid" id="cardGrid"></div>
 </section>
 
 </main>
-<footer>Учебный материал · 2026</footer>
+
+<footer>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".9">
+    <path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M12 6l-3-3M12 6l3-3M12 18l-3 3M12 18l3 3"/></svg>
+  <div class="by">Жураева Зилола<span>Группа 135-23</span></div>
+  <div class="rule"></div>
+  Инвестиционная политика предприятия · 2026
+</footer>
 
 <script>
-/* ---------- данные ---------- */
+/* ===================== данные ===================== */
 const OPEN=[
 ["Что понимается под инвестиционной политикой предприятия?",
- "<b>Инвестиционная политика предприятия</b> — это составная часть общей финансовой стратегии, представляющая собой систему целей, принципов и методов формирования, распределения и использования инвестиционных ресурсов.<ul><li>определяет приоритетные направления вложения капитала;</li><li>устанавливает соотношение собственных и заёмных источников финансирования;</li><li>регламентирует порядок отбора и оценки инвестиционных проектов;</li><li>обеспечивает согласование инвестиционных решений со стратегическими целями развития предприятия.</li></ul>Главная цель — обеспечение эффективного использования инвестиционных ресурсов и рост рыночной стоимости предприятия при допустимом уровне риска."],
+ "<b>Инвестиционная политика предприятия</b> — составная часть общей финансовой стратегии, представляющая собой систему целей, принципов и методов формирования, распределения и использования инвестиционных ресурсов.<ul><li>определяет приоритетные направления вложения капитала;</li><li>устанавливает соотношение собственных и заёмных источников финансирования;</li><li>регламентирует порядок отбора и оценки инвестиционных проектов;</li><li>согласует инвестиционные решения со стратегическими целями развития.</li></ul>Главная цель — эффективное использование инвестиционных ресурсов и рост рыночной стоимости предприятия при допустимом уровне риска."],
 ["Что показывает показатель NPV?",
- "<b>NPV (Net Present Value)</b> — чистая приведённая (дисконтированная) стоимость проекта. Показывает абсолютную величину прироста капитала инвестора за весь срок реализации проекта с учётом фактора времени.<ul><li>рассчитывается как разность дисконтированных денежных притоков и величины первоначальных инвестиций: NPV = Σ CFₜ /(1+r)ᵗ − IC;</li><li><b>NPV &gt; 0</b> — проект целесообразен, он увеличивает стоимость предприятия;</li><li><b>NPV = 0</b> — проект лишь окупает вложения и требуемую доходность;</li><li><b>NPV &lt; 0</b> — проект убыточен и должен быть отклонён.</li></ul>Главное достоинство показателя — учёт стоимости денег во времени и аддитивность (NPV проектов можно складывать)."],
+ "<b>NPV (Net Present Value)</b> — чистая приведённая стоимость проекта. Показывает абсолютную величину прироста капитала инвестора за весь срок реализации с учётом фактора времени.<ul><li>NPV = Σ CF<sub>t</sub> ÷ (1+r)<sup>t</sup> − IC;</li><li><b>NPV &gt; 0</b> — проект целесообразен, увеличивает стоимость предприятия;</li><li><b>NPV = 0</b> — проект лишь окупает вложения и требуемую доходность;</li><li><b>NPV &lt; 0</b> — проект убыточен и отклоняется.</li></ul>Достоинства — учёт стоимости денег во времени и аддитивность: NPV отдельных проектов можно складывать."],
 ["Что характеризует показатель IRR?",
- "<b>IRR (Internal Rate of Return)</b> — внутренняя норма доходности, то есть такая ставка дисконтирования, при которой NPV проекта равен нулю.<ul><li>характеризует максимально допустимую стоимость привлекаемого капитала;</li><li>проект принимается, если <b>IRR &gt; r</b> (стоимости капитала, WACC);</li><li>разность IRR − r отражает «запас прочности» проекта по доходности;</li><li>ограничения: при знакопеременных денежных потоках возможны несколько значений IRR, а при сравнении взаимоисключающих проектов показатель может противоречить NPV.</li></ul>"],
+ "<b>IRR (Internal Rate of Return)</b> — внутренняя норма доходности: ставка дисконтирования, при которой NPV проекта обращается в ноль.<ul><li>показывает максимально допустимую стоимость привлекаемого капитала;</li><li>проект принимается при <b>IRR &gt; r</b> (стоимости капитала, WACC);</li><li>разность IRR − r отражает «запас прочности» по доходности;</li><li>ограничения: при знакопеременных потоках возможны несколько значений IRR, а при сравнении взаимоисключающих проектов показатель может противоречить NPV.</li></ul>"],
 ["Что такое инвестиционный риск?",
- "<b>Инвестиционный риск</b> — вероятность отклонения фактических результатов инвестирования от ожидаемых, включая возможность частичной или полной потери вложенного капитала и недополучения дохода.<ul><li><i>систематический (рыночный)</i> — инфляционный, процентный, валютный, политический — не устраняется диверсификацией;</li><li><i>несистематический</i> — операционный, коммерческий, кредитный, технологический — снижается диверсификацией;</li></ul>Методы оценки: анализ чувствительности, сценарный анализ, метод Монте-Карло, корректировка ставки дисконтирования на премию за риск. Методы снижения: диверсификация, страхование, резервирование средств, распределение риска между участниками."],
+ "<b>Инвестиционный риск</b> — вероятность отклонения фактических результатов инвестирования от ожидаемых, включая возможность потери вложенного капитала и недополучения дохода.<ul><li><i>систематический (рыночный)</i> — инфляционный, процентный, валютный, политический — не устраняется диверсификацией;</li><li><i>несистематический</i> — операционный, коммерческий, кредитный, технологический — снижается диверсификацией.</li></ul><b>Оценка:</b> анализ чувствительности, сценарный анализ, метод Монте-Карло, корректировка ставки дисконтирования на премию за риск.<br><b>Снижение:</b> диверсификация, страхование, резервирование средств, распределение риска между участниками."],
 ["Что показывает индекс PI?",
- "<b>PI (Profitability Index)</b> — индекс рентабельности (доходности) инвестиций. Показывает относительную отдачу: величину дисконтированного дохода, приходящуюся на единицу вложенных средств.<ul><li>PI = Σ CFₜ /(1+r)ᵗ ÷ IC;</li><li><b>PI &gt; 1</b> — проект эффективен (эквивалентно NPV &gt; 0);</li><li><b>PI = 1</b> — проект безубыточен; <b>PI &lt; 1</b> — проект отклоняется;</li></ul>Особенно полезен при ограниченном инвестиционном бюджете, когда нужно выбрать проекты с наибольшей отдачей на рубль вложений."],
+ "<b>PI (Profitability Index)</b> — индекс рентабельности инвестиций. Показывает относительную отдачу: сумму дисконтированного дохода на единицу вложенных средств.<ul><li>PI = Σ CF<sub>t</sub> ÷ (1+r)<sup>t</sup> ÷ IC;</li><li><b>PI &gt; 1</b> — проект эффективен (эквивалентно NPV &gt; 0);</li><li><b>PI = 1</b> — проект безубыточен; <b>PI &lt; 1</b> — отклоняется.</li></ul>Особенно полезен при ограниченном инвестиционном бюджете, когда нужно отобрать проекты с наибольшей отдачей на рубль вложений."],
 ["Что характеризует срок окупаемости PP?",
- "<b>PP (Payback Period)</b> — период времени, за который накопленные денежные поступления от проекта возмещают первоначальные инвестиции.<ul><li>показывает скорость возврата вложенных средств и косвенно характеризует уровень риска: чем короче срок, тем ниже риск;</li><li><b>DPP</b> (дисконтированный срок окупаемости) учитывает стоимость денег во времени и всегда больше простого PP;</li><li>недостатки: не учитывает доходы после момента окупаемости и (в простом варианте) фактор времени.</li></ul>Применяется как дополнительный критерий отбора наряду с NPV и IRR."],
+ "<b>PP (Payback Period)</b> — период, за который накопленные денежные поступления возмещают первоначальные инвестиции.<ul><li>показывает скорость возврата средств и косвенно уровень риска: чем короче срок, тем ниже риск;</li><li><b>DPP</b> — дисконтированный срок окупаемости, учитывает стоимость денег во времени и всегда больше простого PP;</li><li>недостатки: не учитывает доходы после момента окупаемости и (в простом варианте) фактор времени.</li></ul>Применяется как дополнительный критерий наряду с NPV и IRR."],
 ["Назовите основные источники финансирования инвестиций.",
- "Источники делятся на три группы:<ul><li><b>Собственные:</b> чистая прибыль, амортизационные отчисления, уставный и резервный капитал, средства от продажи активов, страховые возмещения;</li><li><b>Заёмные:</b> банковские кредиты, облигационные займы, лизинг, коммерческий (товарный) кредит, бюджетные ссуды;</li><li><b>Привлечённые:</b> эмиссия акций, вклады участников, средства инвесторов и венчурных фондов, бюджетные ассигнования и гранты.</li></ul>Выбор структуры источников определяется их стоимостью, доступностью, сроком, уровнем финансового риска и влиянием на структуру капитала предприятия."],
+ "Источники делятся на три группы:<ul><li><b>Собственные</b> — чистая прибыль, амортизационные отчисления, уставный и резервный капитал, средства от продажи активов, страховые возмещения;</li><li><b>Заёмные</b> — банковские кредиты, облигационные займы, лизинг, коммерческий (товарный) кредит, бюджетные ссуды;</li><li><b>Привлечённые</b> — эмиссия акций, вклады участников, средства инвесторов и венчурных фондов, бюджетные ассигнования и гранты.</li></ul>Структура источников определяется их стоимостью, доступностью, сроком, уровнем финансового риска и влиянием на структуру капитала."],
 ["Что такое инвестиционный проект?",
- "<b>Инвестиционный проект</b> — обоснование экономической целесообразности, объёма и сроков осуществления капитальных вложений, включающее проектно-сметную документацию и бизнес-план практических действий по реализации инвестиций.<ul><li>признаки: наличие цели, ограниченность во времени и ресурсах, уникальность, определённый результат;</li><li>жизненный цикл: <i>прединвестиционная</i> фаза (идея, исследования, ТЭО) → <i>инвестиционная</i> (проектирование, строительство, монтаж) → <i>эксплуатационная</i> (производство и получение дохода) → <i>ликвидационная</i>.</li></ul>Оценивается по критериям NPV, IRR, PI, PP с учётом рисков."],
+ "<b>Инвестиционный проект</b> — обоснование экономической целесообразности, объёма и сроков капитальных вложений, включающее проектно-сметную документацию и бизнес-план практических действий.<ul><li><b>Признаки:</b> наличие цели, ограниченность во времени и ресурсах, уникальность, определённый результат.</li><li><b>Жизненный цикл:</b> прединвестиционная фаза (идея, исследования, ТЭО) → инвестиционная (проектирование, строительство, монтаж) → эксплуатационная (производство и доход) → ликвидационная.</li></ul>Оценивается по критериям NPV, IRR, PI, PP с учётом рисков."],
 ["Что такое инвестиционный портфель предприятия?",
- "<b>Инвестиционный портфель</b> — целенаправленно сформированная совокупность объектов инвестирования (реальных проектов и финансовых инструментов), рассматриваемая как единый объект управления.<ul><li><i>по видам активов:</i> портфель реальных инвестиций, финансовых инвестиций, смешанный;</li><li><i>по целям:</i> портфель роста, портфель дохода, консервативный, агрессивный, сбалансированный.</li></ul>Основная задача управления — достижение оптимального соотношения «доходность — риск — ликвидность» путём диверсификации вложений."],
+ "<b>Инвестиционный портфель</b> — целенаправленно сформированная совокупность объектов инвестирования (реальных проектов и финансовых инструментов), рассматриваемая как единый объект управления.<ul><li><i>по видам активов:</i> портфель реальных инвестиций, финансовых инвестиций, смешанный;</li><li><i>по целям:</i> портфель роста, портфель дохода, консервативный, агрессивный, сбалансированный.</li></ul>Задача управления — оптимальное соотношение «доходность — риск — ликвидность» за счёт диверсификации вложений."],
 ["Для чего проводится анализ чувствительности инвестиционного проекта?",
- "<b>Анализ чувствительности</b> проводится для оценки устойчивости проекта к изменению отдельных исходных параметров.<ul><li>последовательно изменяют один фактор (объём продаж, цену, себестоимость, ставку дисконтирования, величину инвестиций) при неизменных остальных и наблюдают изменение NPV или IRR;</li><li>позволяет выявить <b>критические переменные</b>, наиболее сильно влияющие на результат;</li><li>определяет предельные значения параметров, при которых проект остаётся безубыточным (запас прочности);</li><li>помогает сосредоточить управление рисками на самых значимых факторах.</li></ul>Ограничение метода — он изменяет факторы изолированно, поэтому дополняется сценарным анализом и имитационным моделированием."]
+ "<b>Анализ чувствительности</b> оценивает устойчивость проекта к изменению отдельных исходных параметров.<ul><li>последовательно изменяют один фактор (объём продаж, цену, себестоимость, ставку дисконтирования, величину инвестиций) при неизменных остальных и наблюдают изменение NPV или IRR;</li><li>выявляет <b>критические переменные</b>, сильнее всего влияющие на результат;</li><li>определяет предельные значения параметров, при которых проект остаётся безубыточным — запас прочности;</li><li>позволяет сосредоточить управление рисками на самых значимых факторах.</li></ul>Ограничение метода — факторы изменяются изолированно, поэтому он дополняется сценарным анализом и имитационным моделированием."]
 ];
 
 const QUIZ=[
@@ -190,7 +315,7 @@ const QUIZ=[
  "Инвестиционная политика направлена на эффективное использование ресурсов и рост стоимости предприятия."],
 ["Какой показатель отражает чистую приведённую стоимость проекта?",
  ["IRR","PP","NPV","PI"],2,
- "NPV (Net Present Value) — чистая приведённая стоимость, разность дисконтированных притоков и инвестиций."],
+ "NPV — разность дисконтированных денежных притоков и величины первоначальных инвестиций."],
 ["Какой показатель определяет внутреннюю норму доходности проекта?",
  ["IRR","NPV","PP","ROI"],0,
  "IRR — ставка дисконтирования, при которой NPV проекта равен нулю."],
@@ -199,13 +324,13 @@ const QUIZ=[
  "PP (Payback Period) — срок окупаемости первоначальных вложений."],
 ["Какой источник относится к собственным источникам финансирования?",
  ["Банковский кредит","Облигационный заём","Амортизационные отчисления","Коммерческий кредит"],2,
- "Амортизационные отчисления формируются внутри предприятия, остальные варианты — заёмные средства."],
+ "Амортизационные отчисления формируются внутри предприятия; остальные варианты — заёмные средства."],
 ["Какое значение NPV свидетельствует о целесообразности проекта при стандартных условиях?",
  ["NPV < 0","NPV = 0","NPV > 0","NPV не учитывается"],2,
  "При NPV > 0 проект увеличивает стоимость предприятия и признаётся целесообразным."],
 ["Что характеризует инвестиционный риск?",
  ["Только объём инвестиций","Возможность отклонения фактического результата от ожидаемого","Только срок реализации проекта","Размер уставного капитала"],1,
- "Риск — это вероятность отклонения фактических результатов от ожидаемых."],
+ "Риск — вероятность отклонения фактических результатов от ожидаемых."],
 ["Что происходит с текущей стоимостью будущих денежных потоков при увеличении ставки дисконтирования?",
  ["Увеличивается","Не изменяется","Снижается","Становится равной нулю"],2,
  "Чем выше ставка дисконтирования, тем меньше приведённая стоимость будущих потоков."],
@@ -218,46 +343,48 @@ const QUIZ=[
 ];
 
 const TERMS=[
-["NPV","Чистая приведённая стоимость — разность дисконтированных денежных притоков и первоначальных инвестиций. Проект принимается при NPV > 0."],
+["NPV","Чистая приведённая стоимость — разность дисконтированных притоков и первоначальных инвестиций. Проект принимается при NPV > 0."],
 ["IRR","Внутренняя норма доходности — ставка, при которой NPV = 0. Проект выгоден, если IRR выше стоимости капитала."],
-["PI","Индекс рентабельности — дисконтированный доход на единицу вложений. Эффективен при PI > 1."],
-["PP / DPP","Срок окупаемости — период возврата вложений. DPP учитывает дисконтирование и всегда больше PP."],
-["WACC","Средневзвешенная стоимость капитала — минимальная требуемая доходность проекта, часто используется как ставка дисконтирования."],
+["PI","Индекс рентабельности — дисконтированный доход на единицу вложений. Проект эффективен при PI > 1."],
+["PP · DPP","Срок окупаемости — период возврата вложений. DPP учитывает дисконтирование и всегда больше простого PP."],
+["WACC","Средневзвешенная стоимость капитала — минимальная требуемая доходность, часто используется как ставка дисконтирования."],
 ["Дисконтирование","Приведение будущих денежных потоков к текущему моменту с учётом стоимости денег во времени."],
 ["Диверсификация","Распределение вложений между разными объектами для снижения несистематического риска портфеля."],
-["Анализ чувствительности","Оценка влияния изменения отдельного параметра на NPV или IRR для выявления критических факторов."]
+["Чувствительность","Оценка влияния изменения отдельного параметра на NPV или IRR для выявления критических факторов."]
 ];
 
-/* ---------- рендер открытых ---------- */
+const FLAKE='<svg class="flake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M12 2v20M3.4 7l17.2 10M20.6 7L3.4 17M12 6.2L9.2 3.4M12 6.2l2.8-2.8M12 17.8l-2.8 2.8M12 17.8l2.8 2.8"/></svg>';
+const BGFLAKE='<svg class="bg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".8"><path d="M12 2v20M3.4 7l17.2 10M20.6 7L3.4 17M12 6.2L9.2 3.4M12 6.2l2.8-2.8M12 17.8l-2.8 2.8M12 17.8l2.8 2.8M7.7 9.5L4.6 8.7M7.7 14.5l-3.1.8M16.3 9.5l3.1-.8M16.3 14.5l3.1.8"/></svg>';
+
+/* ===================== открытые ===================== */
 const ol=document.getElementById('openList');
 OPEN.forEach((o,i)=>{
   const d=document.createElement('div');
   d.className='card';
   d.innerHTML=`<div class="q"><span class="num">${String(i+1).padStart(2,'0')}</span>
-    <span class="qt">${o[0]}</span><span class="chev">›</span></div>
-    <div class="a"><div class="a-in">${o[1]}</div></div>`;
+    <span class="qt">${o[0]}</span>${FLAKE}</div>
+    <div class="a"><div><div class="a-in">${o[1]}</div></div></div>`;
   d.querySelector('.q').onclick=()=>d.classList.toggle('open');
   ol.appendChild(d);
 });
 function allCards(s){document.querySelectorAll('#openList .card').forEach(c=>c.classList.toggle('open',s));}
 
-/* ---------- рендер теста ---------- */
-const letters=['А','Б','В','Г'];
+/* ===================== тест ===================== */
+const L=['А','Б','В','Г'];
 const ql=document.getElementById('quizList');
 QUIZ.forEach((q,i)=>{
   const d=document.createElement('div');
-  d.className='quiz';d.dataset.i=i;
-  d.innerHTML=`<span class="qt"><b style="color:var(--denim)">${i+1}.</b> ${q[0]}</span>`+
+  d.className='quiz';
+  d.innerHTML=`<div class="head"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${q[0]}</span></div>`+
     q[1].map((t,j)=>`<label class="opt" data-j="${j}">
       <input type="radio" name="q${i}" value="${j}">
-      <span><b>${letters[j]})</b> ${t}</span><span class="mark"></span></label>`).join('')+
-    `<div class="exp" style="display:none;margin-top:12px;padding:12px 14px;background:var(--paper);
-      border-left:2px solid var(--denim);font-size:14px;color:#4a545f">${q[3]}</div>`;
-  d.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
+      <span class="let">${L[j]}</span><span>${t}</span><span class="mark"></span></label>`).join('')+
+    `<div class="exp"><b>Пояснение.</b> ${q[3]}</div>`;
+  d.querySelectorAll('.opt').forEach(o=>o.addEventListener('click',()=>{
     if(locked)return;
     d.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
     o.classList.add('sel');
-  });
+  }));
   ql.appendChild(d);
 });
 
@@ -269,19 +396,18 @@ function check(){
     const corr=QUIZ[i][2];
     d.querySelectorAll('.opt').forEach(o=>{
       o.classList.add('locked');o.classList.remove('sel');
-      const j=+o.dataset.j, m=o.querySelector('.mark');
+      const j=+o.dataset.j,m=o.querySelector('.mark');
       if(j===corr){o.classList.add('right');m.textContent='✓';}
-      else if(sel && +sel.value===j){o.classList.add('wrong');m.textContent='✕';}
+      else if(sel&&+sel.value===j){o.classList.add('wrong');m.textContent='✕';}
     });
     d.querySelector('.exp').style.display='block';
-    if(sel && +sel.value===corr)right++;
+    if(sel&&+sel.value===corr)right++;
   });
   locked=true;
-  const p=right*10;
   document.getElementById('sc').textContent=right+' / 10';
-  document.getElementById('mt').style.width=p+'%';
+  document.getElementById('mt').style.width=(right*10)+'%';
   document.getElementById('scl').textContent =
-    right===10?'отлично — безупречно':right>=8?'отлично':right>=6?'хорошо':right>=4?'удовлетворительно':'стоит повторить';
+    right===10?'безупречно':right>=8?'отлично':right>=6?'хорошо':right>=4?'удовлетворительно':'стоит повторить';
 }
 function resetQuiz(){
   locked=false;
@@ -296,17 +422,19 @@ function resetQuiz(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ---------- карточки ---------- */
+/* ===================== карточки ===================== */
 const cg=document.getElementById('cardGrid');
 TERMS.forEach(t=>{
   const d=document.createElement('div');
   d.className='flip';
-  d.innerHTML=`<div class="inner"><div class="face front">${t[0]}</div><div class="face back">${t[1]}</div></div>`;
+  d.innerHTML=`<div class="inner">
+    <div class="face front">${BGFLAKE}<span class="lbl">${t[0]}</span></div>
+    <div class="face back">${t[1]}</div></div>`;
   d.onclick=()=>d.classList.toggle('f');
   cg.appendChild(d);
 });
 
-/* ---------- навигация ---------- */
+/* ===================== навигация ===================== */
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('section').forEach(s=>s.classList.remove('on'));
@@ -317,8 +445,54 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
 
 addEventListener('scroll',()=>{
   const h=document.documentElement;
-  document.getElementById('bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  const max=h.scrollHeight-h.clientHeight;
+  document.getElementById('bar').style.width=(max>0?h.scrollTop/max*100:0)+'%';
 });
+
+/* ===================== снегопад ===================== */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const c=document.getElementById('snow'),x=c.getContext('2d');
+  let w,h,flakes=[];
+  function size(){
+    w=c.width=innerWidth*devicePixelRatio;
+    h=c.height=innerHeight*devicePixelRatio;
+    c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
+    const n=Math.min(110,Math.round(innerWidth/13));
+    flakes=Array.from({length:n},()=>mk(true));
+  }
+  function mk(any){
+    return{
+      x:Math.random()*w,
+      y:any?Math.random()*h:-10*devicePixelRatio,
+      r:(Math.random()*1.9+0.5)*devicePixelRatio,
+      s:(Math.random()*0.5+0.18)*devicePixelRatio,
+      d:Math.random()*Math.PI*2,
+      sw:(Math.random()*0.6+0.2)*devicePixelRatio,
+      o:Math.random()*0.45+0.18
+    };
+  }
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(let i=0;i<flakes.length;i++){
+      const f=flakes[i];
+      f.d+=0.012;
+      f.y+=f.s;
+      f.x+=Math.sin(f.d)*f.sw;
+      if(f.y>h+8*devicePixelRatio||f.x<-20||f.x>w+20)flakes[i]=mk(false);
+      x.beginPath();
+      x.arc(f.x,f.y,f.r,0,6.2832);
+      x.fillStyle='rgba(255,255,255,'+f.o+')';
+      x.shadowBlur=6*devicePixelRatio;
+      x.shadowColor='rgba(170,195,220,'+(f.o*0.9)+')';
+      x.fill();
+    }
+    x.shadowBlur=0;
+    requestAnimationFrame(tick);
+  }
+  addEventListener('resize',size);
+  size();tick();
+})();
 </script>
 </body>
 </html>
